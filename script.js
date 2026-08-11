@@ -1,6 +1,209 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 
+let sipspotDeferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  sipspotDeferredInstallPrompt = event;
+  updateInstallButton();
+});
+
+window.addEventListener('appinstalled', () => {
+  sipspotDeferredInstallPrompt = null;
+  updateInstallButton();
+});
+
+function isPwaInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function updateInstallButton() {
+  const installBtn = document.getElementById('install-btn');
+  if (!installBtn) return;
+
+  const appIconSvg = `
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+      <path d="M6.5 10.5C8.3 7.1 11 5 14 5c0 0 .8 2.2 2.2 4.6 1.4 2.4 2.3 5.3 2.3 7.5 0 1.5-1.2 2.7-2.7 2.7-2.1 0-4.8-1.6-7.8-4.6C5.5 14.3 5 12.2 5 10.5c0-1.2.3-2.4.9-3.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M12 7v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+      <path d="M9.5 11.5L12 14l2.5-2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `;
+
+  if (isPwaInstalled()) {
+    installBtn.innerHTML = `
+      <span class="install-icon">✓</span>
+      <span class="install-copy">
+        <span class="install-title">SIPSPOT is installed</span>
+      </span>
+      <span class="install-hint">→</span>
+    `;
+    installBtn.disabled = true;
+    installBtn.classList.add('installed');
+    return;
+  }
+
+  installBtn.innerHTML = `
+    <span class="install-icon">${appIconSvg}</span>
+    <span class="install-copy">
+      <span class="install-title">Download SIPSPOT</span>
+      <span class="install-subtitle">INSTALL SIPSPOT</span>
+    </span>
+    <span class="install-hint">→</span>
+  `;
+  installBtn.disabled = false;
+  installBtn.classList.remove('installed');
+}
+
+function getPwaInstructions() {
+  const userAgent = navigator.userAgent || '';
+  if (/android/i.test(userAgent)) {
+    return [
+      { label: 'ANDROID:', text: 'Use Chrome → ⋮ menu → Add to Home screen / Install app.' }
+    ];
+  }
+  if (/iphone|ipad|ipod/i.test(userAgent) || (/Macintosh/i.test(userAgent) && 'ontouchend' in document)) {
+    return [
+      { label: 'IOS:', text: 'Open Safari → Share → Add to Home Screen.' }
+    ];
+  }
+  return [
+    { label: 'DESKTOP:', text: 'Use Chrome/Edge install button from the address bar or browser menu.' }
+  ];
+}
+
+function renderPwaInstructions() {
+  const container = document.getElementById('pwa-install-instructions');
+  if (!container) return;
+  const items = getPwaInstructions();
+  container.innerHTML = items.map((item) => `
+    <div class="pwa-instruction-step">
+      <strong>${item.label}</strong>
+      <span>${item.text}</span>
+    </div>
+  `).join('');
+}
+
+function showPwaInstallModal() {
+  const modal = document.getElementById('pwa-install-modal');
+  if (!modal) return;
+  renderPwaInstructions();
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function hidePwaInstallModal() {
+  const modal = document.getElementById('pwa-install-modal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function promptPwaInstall() {
+  if (!sipspotDeferredInstallPrompt) {
+    showPwaInstallModal();
+    return;
+  }
+  const installBtn = document.getElementById('install-btn');
+  if (installBtn) {
+    installBtn.innerHTML = '<span class="install-title">Installing SIPSPOT...</span>';
+    installBtn.disabled = true;
+  }
+  sipspotDeferredInstallPrompt.prompt();
+  sipspotDeferredInstallPrompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === 'accepted') {
+      updateInstallButton();
+    } else {
+      sipspotDeferredInstallPrompt = null;
+      updateInstallButton();
+      showPwaInstallModal();
+    }
+  }).catch(() => {
+    sipspotDeferredInstallPrompt = null;
+    updateInstallButton();
+    showPwaInstallModal();
+  });
+}
+
+function initPwaInstall() {
+  if (window._sipspotPwaInit) return;
+  window._sipspotPwaInit = true;
+
+  const installBtn = document.getElementById('install-btn');
+  const closeBtn = document.querySelector('.pwa-close');
+  const cancelBtn = document.querySelector('.pwa-install-cancel');
+  const actionBtn = document.querySelector('.pwa-install-action');
+
+  if (installBtn) {
+    installBtn.addEventListener('click', () => {
+      if (isPwaInstalled()) {
+        updateInstallButton();
+        return;
+      }
+      promptPwaInstall();
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', hidePwaInstallModal);
+  if (cancelBtn) cancelBtn.addEventListener('click', hidePwaInstallModal);
+  if (actionBtn) actionBtn.addEventListener('click', () => {
+    if (sipspotDeferredInstallPrompt) {
+      promptPwaInstall();
+    } else {
+      hidePwaInstallModal();
+    }
+  });
+
+  updateInstallButton();
+}
+
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('sw.js').then((registration) => {
+    // Ask the browser to check for updates immediately
+    try { registration.update(); } catch (e) {}
+
+    // When a new service worker is found
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing;
+      if (!newWorker) return;
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed') {
+          // If there's an active controller, this is an update — instruct the SW to skip waiting
+          if (navigator.serviceWorker.controller) {
+            try { newWorker.postMessage({ type: 'SKIP_WAITING' }); } catch (e) {}
+          }
+        }
+      });
+    });
+
+    // When the controlling service worker changes, reload to use the new content
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      try {
+        // avoid reload loops — only reload if the page is controlled
+        if (!window._swReloading) {
+          window._swReloading = true;
+          window.location.reload();
+        }
+      } catch (e) { console.warn(e); }
+    });
+
+    // Periodically check for updates (lightweight): every 6 hours
+    setInterval(() => {
+      try { registration.update(); } catch (e) {}
+    }, 1000 * 60 * 60 * 6);
+
+    // Also check for updates when the page becomes visible
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        try { registration.update(); } catch (e) {}
+      }
+    });
+  }).catch((error) => {
+    console.warn('SW registration failed:', error);
+  });
+}
+
 menuToggle?.addEventListener('click', () => {
   navLinks?.classList.toggle('open');
 });
@@ -13,6 +216,25 @@ window.addEventListener('scroll', () => {
 
 function isLoggedIn() {
   return localStorage.getItem('sipspot_logged_in') === 'true';
+}
+
+function shouldShowIntro() {
+  // Intro should appear on every page load/refresh — do not rely on storage flags
+  return true;
+}
+
+function markIntroSeen() {
+  // no-op: we intentionally do not persist intro seen state
+}
+
+function goBack() {
+  const fallback = './index.html';
+  const sameSiteReferrer = document.referrer && document.referrer.startsWith(location.origin);
+  if (window.history.length > 1 && sameSiteReferrer) {
+    window.history.back();
+  } else {
+    window.location.href = fallback;
+  }
 }
 
 function ensureExploreAccess(event) {
@@ -43,6 +265,8 @@ window.addEventListener('DOMContentLoaded', () => {
   try { if (typeof loadCustomCafes === 'function') loadCustomCafes(); } catch (e) {}
   ensurePageAccess();
   initButtonSteamEffect();
+  registerServiceWorker();
+  initPwaInstall();
   if (window.location.pathname.endsWith('explore.html')) {
     initExplorePage();
   } else if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
@@ -258,6 +482,7 @@ function initSideCharacters() {
 }
 
 function initHomePage() {
+  // Always start the intro sequence on page load/refresh
   startIntroSequence();
   wireHomepageSearch();
   initHomeRecommendations();
@@ -514,6 +739,7 @@ function startIntroSequence() {
   });
 
   const hideOverlay = () => {
+    // do not persist intro seen state — intro should reappear on next page load/refresh
     intro.classList.add('intro-hidden');
     document.body.classList.remove('intro-active');
     setTimeout(() => {
@@ -1098,10 +1324,60 @@ function initCinematicTheme() {
   for(let i=0;i<60;i++) spawnParticle(Math.random()*window.innerWidth, Math.random()*window.innerHeight, { life: 200+Math.random()*400, size: 0.6+Math.random()*2 });
 
   let tick=0;
-  function frame(){
-    tick++; ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+
+  // lightweight leaf animation (occasional falling groups)
+  const leaves = [];
+  const MAX_LEAVES = 5;
+
+  function spawnLeafGroup() {
+    const count = 3 + Math.floor(Math.random()*2); // 3 or 4
+    for (let i=0;i<count;i++) {
+      if (leaves.length >= MAX_LEAVES) break;
+      const startX = Math.random() * window.innerWidth;
+      const size = 12 + Math.random()*28; // px
+      const rot = (Math.random()-0.5) * 60; // degrees
+      const speed = 0.6 + Math.random()*1.2;
+      const drift = (Math.random()-0.5) * 0.8;
+      const opacity = 0.5 + Math.random()*0.45;
+      const huePick = Math.random();
+      const color = huePick < 0.5 ? 'rgba(126,145,95,'+opacity+')' : 'rgba(158,175,97,'+opacity+')';
+      leaves.push({ x:startX, y:-40 - Math.random()*80, vx:drift, vy:speed, rot:rot, rotSpeed:(Math.random()-0.5)*0.8, size, life: 600 + Math.random()*800, color, tilt: (Math.random()-0.5)*0.6 });
+    }
+  }
+
+  // schedule occasional spawns
+  (function scheduleNext(){
+    const delay = 4000 + Math.random()*7000; // 4-11s
+    setTimeout(()=>{ spawnLeafGroup(); scheduleNext(); }, delay);
+  })();
+
+  function drawLeaf(ctx, leaf) {
+    ctx.save();
+    ctx.translate(leaf.x, leaf.y);
+    ctx.rotate((leaf.rot + leaf.tilt) * Math.PI/180);
+    ctx.scale(1, 0.85);
+    const w = leaf.size; const h = leaf.size*0.6;
+    const g = ctx.createLinearGradient(-w/2,0,w/2,0);
+    g.addColorStop(0, 'rgba(255,255,255,0.02)');
+    g.addColorStop(0.2, leaf.color);
+    g.addColorStop(1, 'rgba(0,0,0,0.02)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(-w/2,0);
+    ctx.quadraticCurveTo(0,-h, w/2,0);
+    ctx.quadraticCurveTo(0,h*0.6, -w/2,0);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // integrate leaf updates into main frame loop by wrapping frame
+  const originalFrame = frame;
+  function frameWithLeaves(){
+    tick++;
+    ctx.clearRect(0,0,window.innerWidth, window.innerHeight);
+    // draw particles (existing logic)
     for(let i=particles.length-1;i>=0;i--){
-      const p = particles[i]; p.x += p.vx; p.y += p.vy; p.life -= 1; p.vy -= 0.0002; // slight upward drift
+      const p = particles[i]; p.x += p.vx; p.y += p.vy; p.life -= 1; p.vy -= 0.0002;
       const alpha = Math.max(0, Math.min(1, p.life/300));
       ctx.globalAlpha = alpha * 0.9;
       if (p.type === 'bean'){
@@ -1111,14 +1387,22 @@ function initCinematicTheme() {
       }
       if (p.life <= 0) particles.splice(i,1);
     }
-    // occasionally spawn bean or steam near bottom left-right for cinematic feel
+    // update and draw leaves
+    for (let i=leaves.length-1;i>=0;i--) {
+      const l = leaves[i];
+      l.x += l.vx; l.y += l.vy; l.vy += 0.002; l.rot += l.rotSpeed; l.life -= 1;
+      ctx.globalAlpha = Math.max(0, Math.min(1, l.life/800));
+      drawLeaf(ctx, l);
+      if (l.y > window.innerHeight + 60 || l.life <= 0) leaves.splice(i,1);
+    }
+    // occasionally spawn particles as before
     if (tick % 40 === 0) {
       const x = Math.random()<0.5? Math.random()*120 : window.innerWidth - Math.random()*120;
       spawnParticle(x, window.innerHeight - 80, { type: Math.random()>0.85? 'bean':'steam', vx:(Math.random()-0.5)*0.6, vy:-0.6-Math.random()*0.6, size: 1+Math.random()*3, life: 160+Math.random()*200 });
     }
-    requestAnimationFrame(frame);
+    requestAnimationFrame(frameWithLeaves);
   }
-  requestAnimationFrame(frame);
+  requestAnimationFrame(frameWithLeaves);
 
   // page transition: intercept all same-origin internal link clicks
   function startTransition(toUrl){

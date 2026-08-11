@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In - SipSpot</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.jpg" />
+    <link rel="icon" href="./icons/icon.jpg" type="image/jpeg" />
+    <link rel="shortcut icon" href="./icons/icon-192.jpg" />
+    <meta name="theme-color" content="#2b190f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
   <body>
     <div class="video-wrap">
@@ -22,6 +30,7 @@
         <a href="signup.html">Sign Up</a>
       </nav>
     </header>
+    <button class="button secondary back-button" type="button" onclick="goBack()">← Back</button>
 
     <main class="auth-page">
       <div class="auth-layout">
