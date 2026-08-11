@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spin The Sip - SipSpot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline preload="auto" class="bg-video">
+        <source src="https://cdn.coverr.co/videos/coverr-coffee-shop-1012/1080p.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <header class="site-header">
+      <div class="brand">SipSpot</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="spin.html" class="active">Spin The Sip</a>
+        <a href="login.html">Log In</a>
+        <a href="signup.html" class="button secondary">Sign Up</a>
+      </nav>
+    </header>
+
+    <main class="section spin-page">
+      <section class="spin-hero">
+        <div>
+          <span class="eyebrow">SPIN • CHOOSE • SIP</span>
+          <h1>SPIN THE SIP</h1>
+          <p class="tagline">Can't choose your cafe? Let the SIP decide. ☕</p>
+        </div>
+        <div class="spin-controls">
+          <div class="add-cafe-panel">
+            <label for="cafe-input" class="eyebrow">Add Cafe</label>
+            <div class="add-row">
+              <input id="cafe-input" list="cafes-datalist" placeholder="Type or choose a cafe from the list" />
+              <datalist id="cafes-datalist"></datalist>
+              <button id="add-cafe" class="button secondary">Add</button>
+            </div>
+            <div id="selected-list" class="selected-list"></div>
+            <p id="selection-hint" class="selection-hint">Select 2–10 cafes to spin.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section wheel-section">
+        <div class="wheel-stage">
+          <div class="wheel-wrap">
+            <canvas id="wheel-canvas" width="600" height="600"></canvas>
+            <div class="wheel-pointer">▼</div>
+          </div>
+        </div>
+        <div class="spin-actions">
+          <button id="spin-button" class="button primary" disabled>SPIN THE SIP ☕</button>
+        </div>
+      </section>
+
+      <div id="winner-modal" class="winner-modal hidden">
+        <div class="winner-card">
+          <div class="celebration" id="celebration-canvas-wrap">
+            <canvas id="celebration-canvas"></canvas>
+          </div>
+          <div class="winner-copy">
+            <p class="eyebrow">YOUR SIP SPOT IS...</p>
+            <h2 id="winner-name">—</h2>
+            <p class="sub">Let's Go! ☕</p>
+            <div class="winner-actions">
+              <a id="go-to-cafe" class="button primary" target="_blank" rel="noreferrer noopener">GO TO CAFE</a>
+              <button id="spin-again" class="button secondary">SPIN AGAIN</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>© 2026 SipSpot. Good luck and enjoy your sip.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <div id="cinematic-bg" aria-hidden="true"></div>
+    <div id="cinematic-overlay" aria-hidden="true">
+      <div class="vignette"></div>
+      <div class="light-rays"></div>
+      <canvas class="cinematic-canvas" id="cinematic-canvas"></canvas>
+      <div class="overlay-spot"></div>
+    </div>
+  </body>
+</html>

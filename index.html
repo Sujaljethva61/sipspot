@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SipSpot Cafe Explorer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="intro-screen" class="intro-screen">
+      <div class="intro-background"></div>
+      <div class="intro-grain"></div>
+      <div class="intro-haze"></div>
+      <div class="intro-content">
+        <div class="intro-title">SIPSPOT</div>
+        <div class="intro-tagline">Where Every Sip Finds Its Spot.</div>
+        <div class="intro-credit">Created by MR. SUJAL JETHVA</div>
+      </div>
+    </div>
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline preload="auto" class="bg-video">
+        <source src="https://cdn.coverr.co/videos/coverr-coffee-shop-1012/1080p.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <header class="site-header">
+      <div class="brand">SipSpot</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html" onclick="return ensureExploreAccess(event)">Explore</a>
+        <a href="spin.html">Spin The Sip</a>
+        <a href="#featured">Best Cafes</a>
+        <a href="#contact">Contact</a>
+        <a href="login.html">Log In</a>
+        <a href="signup.html" class="button secondary">Sign Up</a>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+    </header>
+
+    <main class="hero-section">
+      <div class="hero-copy">
+        <span class="eyebrow">EXPLORE • DISCOVER • EXPERIENCE</span>
+        <h1>Find your perfect cafe escape.</h1>
+        <p>Experience a premium cafe discovery platform built for warm atmospheres, refined sips, and memorable local recommendations.</p>
+        <div class="hero-actions">
+          <a href="explore.html" class="button primary" onclick="return ensureExploreAccess(event)">Explore Cafes</a>
+          <a href="#featured" class="button secondary">See Recommendations</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-cup-illustration" aria-hidden="true">
+          <div class="cup-shadow"></div>
+          <div class="cup-wrap">
+            <div class="cup-steam">
+              <span></span>
+              <span></span>
+            </div>
+            <div class="cup-body"></div>
+            <div class="cup-handle"></div>
+            <div class="cup-fill"></div>
+            <div class="cup-face">
+              <span class="cup-eye cup-eye--left"></span>
+              <span class="cup-eye cup-eye--right"></span>
+              <span class="cup-smile"></span>
+            </div>
+          </div>
+          <div class="cup-saucer"></div>
+        </div>
+        <div class="hero-panel">
+          <span class="hero-badge">Editor's Pick</span>
+          <h3>Pepito</h3>
+          <p>Warm espresso lounge with curated playlists, marble tables, and signature pastries for a calm afternoon escape.</p>
+          <div class="hero-panel-meta">
+            <span>Ahmedabad</span>
+            <span>4.9 ★</span>
+          </div>
+        </div>
+        <div class="hero-search-card">
+          <p>Search by vibe, experience, and cafe mood.</p>
+          <div class="search-box">
+            <input id="hero-search-input" type="text" placeholder="Search coffee shops, roasteries, brunch spots..." aria-label="Search cafes" />
+            <button id="hero-search-button" type="button">Find Cafes</button>
+          </div>
+          <div class="search-chips">
+            <span class="active">Nearby</span>
+            <span>Luxury</span>
+            <span>Work Friendly</span>
+            <span>Outdoor</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <section class="section cafe-network-card">
+      <div class="rating-card">
+        <div>
+          <span class="eyebrow">Cafe Network</span>
+          <h2>Explore premium Ahmedabad cafes</h2>
+        </div>
+        <div class="rating-summary">
+          <div class="rating-stat">
+            <span>58</span>
+            <p>Featured cafes</p>
+          </div>
+          <div class="rating-stat">
+            <span>10+</span>
+            <p>Best neighborhoods</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="explore" class="section intro-grid">
+      <div>
+        <h2>Experience Cafe Culture</h2>
+        <p>Navigate the city’s best coffee scenes with immersive visuals, user stories, and real-time recommendations.</p>
+      </div>
+      <div class="feature-grid">
+        <article>
+          <h3>Curated Lists</h3>
+          <p>Hand-picked cafes for every mood, from study sessions to weekend brunch.</p>
+        </article>
+        <article>
+          <h3>Live Ambience</h3>
+          <p>Preview each spot with ambient video and sound before you arrive.</p>
+        </article>
+        <article>
+          <h3>Signature Brews</h3>
+          <p>Discover specialty drinks, seasonal menus, and chef-crafted pastries.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="featured" class="section featured-cafes">
+      <div class="section-header">
+        <span class="eyebrow">Recommendations</span>
+        <h2>Recommendations & Best Cafes</h2>
+      </div>
+      <div id="featured-rotator" class="featured-rotator">
+        <div class="featured-card rotating-fade" id="featured-card">
+          <div class="featured-media" id="featured-media" aria-hidden="true"></div>
+          <div class="featured-copy">
+            <span class="card-tag" id="featured-tag">Curated Pick</span>
+            <h3 id="featured-name">Pepito</h3>
+            <p id="featured-vibe">Warm espresso lounge with curated playlists, marble tables, and signature pastries.</p>
+            <p class="featured-address" id="featured-address">Ahmedabad, Gujarat, India</p>
+            <div class="featured-actions">
+              <a id="featured-explore" class="button primary" target="_blank" rel="noreferrer noopener">Get Directions</a>
+              <button id="featured-next" class="button secondary">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ai-recommendation">
+      <div class="ai-panel">
+        <div class="ai-copy">
+          <span class="eyebrow">AI Recommendation</span>
+          <h2>Let AI find your perfect sip.</h2>
+          <p>Personalized cafe suggestions based on your mood, budget, and the atmosphere you want to discover tonight.</p>
+          <div class="ai-badge">Premium recommendation</div>
+        </div>
+        <div class="ai-card">
+          <h3>Quiet study escape</h3>
+          <p>Seek out a serene cafe with slow-brew coffee, cozy corners, reliable WiFi, and a refined ambience for focused hours.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="section testimonials-section">
+      <div>
+        <h2>Why people love SipSpot</h2>
+        <p>Real guests, real moments, and creative cafe experiences curated for every palate.</p>
+      </div>
+      <div class="testimonial-grid">
+        <blockquote>“The best discovery tool for hidden cafes—every recommendation feels premium and personal.”</blockquote>
+        <blockquote>“The site’s atmosphere and video background made me want to visit every location instantly.”</blockquote>
+        <blockquote>“Beautiful design, easy browsing, and amazing cafe picks.”</blockquote>
+      </div>
+    </section>
+
+    
+
+    <footer class="site-footer">
+      <p>© 2026 SipSpot. Crafted for cafe lovers and premium browsing experiences.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <div id="cinematic-bg" aria-hidden="true"></div>
+    <div id="cinematic-overlay" aria-hidden="true">
+      <div class="vignette"></div>
+      <div class="light-rays"></div>
+      <canvas class="cinematic-canvas" id="cinematic-canvas"></canvas>
+      <div class="overlay-spot"></div>
+    </div>
+  </body>
+</html>

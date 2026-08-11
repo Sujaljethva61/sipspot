@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - SipSpot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline preload="auto" class="bg-video">
+        <source src="https://cdn.coverr.co/videos/coverr-coffee-shop-1012/1080p.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <header class="site-header auth-header">
+      <div class="brand">SipSpot</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="login.html">Log In</a>
+      </nav>
+    </header>
+
+    <main class="auth-page">
+      <div class="auth-layout">
+        <div class="character-wrap" aria-hidden="true">
+          <div class="characters-group">
+            <div class="side-character left">
+              <svg class="small-character small-left" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="gLeft2" x1="0" x2="1"><stop offset="0%" stop-color="#ffd6a2"/><stop offset="100%" stop-color="#ff9f7a"/></linearGradient>
+                </defs>
+                <g transform="translate(70,70)">
+                  <circle cx="0" cy="0" r="44" fill="url(#gLeft2)" />
+                  <g class="eye left-eye-small" transform="translate(-16,-6)">
+                    <ellipse cx="0" cy="0" rx="10" ry="8" fill="#fff"/>
+                    <circle class="pupil-small" cx="0" cy="0" r="3" fill="#2b1e17"/>
+                  </g>
+                  <g class="eye right-eye-small" transform="translate(16,-6)">
+                    <ellipse cx="0" cy="0" rx="10" ry="8" fill="#fff"/>
+                    <circle class="pupil-small" cx="0" cy="0" r="3" fill="#2b1e17"/>
+                  </g>
+                  <path d="M-18,14 C-8,24 8,24 18,14" stroke="#5a2f1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+                </g>
+              </svg>
+            </div>
+            <div class="main-character">
+          <svg class="character" viewBox="0 0 280 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <radialGradient id="skinGrad2" cx="30%" cy="20%" r="80%">
+                <stop offset="0%" stop-color="#fff6ea" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#f0d9b3" stop-opacity="1"/>
+              </radialGradient>
+              <linearGradient id="cupGrad2" x1="0" x2="1">
+                <stop offset="0%" stop-color="#f8e7d0"/>
+                <stop offset="100%" stop-color="#d6a86a"/>
+              </linearGradient>
+            </defs>
+            <g class="shadow" transform="translate(140,220)">
+              <ellipse cx="0" cy="0" rx="80" ry="18" fill="rgba(0,0,0,0.28)"/>
+            </g>
+            <g class="body" transform="translate(140,140)">
+              <ellipse cx="0" cy="60" rx="70" ry="54" fill="url(#cupGrad2)" opacity="0.95"/>
+              <circle cx="0" cy="-10" r="74" fill="url(#skinGrad2)"/>
+            </g>
+            <g class="face" transform="translate(140,110)">
+              <g class="eye left-eye" transform="translate(-36,-6)">
+                <ellipse class="sclera" cx="0" cy="0" rx="18" ry="14" fill="#fff"/>
+                <circle class="pupil" id="pupil-left" cx="0" cy="0" r="6" fill="#1a120e"/>
+              </g>
+              <g class="eye right-eye" transform="translate(36,-6)">
+                <ellipse class="sclera" cx="0" cy="0" rx="18" ry="14" fill="#fff"/>
+                <circle class="pupil" id="pupil-right" cx="0" cy="0" r="6" fill="#1a120e"/>
+              </g>
+              <g class="mouth" transform="translate(0,28)">
+                <path class="smile" d="M-28,6 C-16,18 16,18 28,6" stroke="#6b3b25" stroke-width="4" fill="none" stroke-linecap="round"/>
+              </g>
+              <g class="hand left-hand" transform="translate(-40,4)">
+                <ellipse cx="0" cy="0" rx="12" ry="8" fill="#e0c29a" opacity="0"/>
+              </g>
+              <g class="hand right-hand" transform="translate(40,4)">
+                <ellipse cx="0" cy="0" rx="12" ry="8" fill="#e0c29a" opacity="0"/>
+              </g>
+            </g>
+          </svg>
+            </div>
+            <div class="side-character right">
+              <svg class="small-character small-right" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="gRight2" x1="0" x2="1"><stop offset="0%" stop-color="#cfe8ff"/><stop offset="100%" stop-color="#9fd1ff"/></linearGradient>
+                </defs>
+                <g transform="translate(70,70)">
+                  <rect x="-44" y="-44" width="88" height="88" rx="20" fill="url(#gRight2)" />
+                  <g class="eye left-eye-small" transform="translate(-14,-6)">
+                    <ellipse cx="0" cy="0" rx="10" ry="8" fill="#fff"/>
+                    <circle class="pupil-small" cx="0" cy="0" r="3" fill="#1e2b2b"/>
+                  </g>
+                  <g class="eye right-eye-small" transform="translate(14,-6)">
+                    <ellipse cx="0" cy="0" rx="10" ry="8" fill="#fff"/>
+                    <circle class="pupil-small" cx="0" cy="0" r="3" fill="#1e2b2b"/>
+                  </g>
+                  <path d="M-18,18 C-8,10 8,10 18,18" stroke="#123" stroke-width="2" fill="none" stroke-linecap="round"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <section class="auth-card">
+        <div class="auth-copy">
+          <span class="eyebrow">Join the community</span>
+          <h1>Create your SipSpot account</h1>
+          <p>Sign up to save favorite cafes, get personalized recommendations, and explore premium coffee routes.</p>
+        </div>
+        <form id="signup-form" class="auth-form" action="#" method="post" onsubmit="event.preventDefault(); onAuthSuccess();">
+          <button type="button" class="button google-button" onclick="continueWithGoogle()">
+            <span class="google-icon">G</span>
+            Continue with Google
+          </button>
+          <div class="auth-divider">or</div>
+          <label>
+            Full name
+            <input type="text" name="name" placeholder="Alex Johnson" required />
+          </label>
+          <label>
+            Email address
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            Password
+            <input type="password" name="password" placeholder="Choose a password" required />
+          </label>
+          <button type="submit" class="button primary">Sign Up</button>
+          <p class="auth-footer">
+            Already have an account? <a href="login.html">Log in</a>
+          </p>
+        </form>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer auth-footer-note">
+      <p>© 2026 SipSpot. Crafted for cafe lovers.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <div id="cinematic-bg" aria-hidden="true"></div>
+    <div id="cinematic-overlay" aria-hidden="true">
+      <div class="vignette"></div>
+      <div class="light-rays"></div>
+      <canvas class="cinematic-canvas" id="cinematic-canvas"></canvas>
+      <div class="overlay-spot"></div>
+    </div>
+  </body>
+</html>

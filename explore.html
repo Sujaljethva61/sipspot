@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore Cafes - SipSpot</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline preload="auto" class="bg-video">
+        <source src="https://cdn.coverr.co/videos/coverr-coffee-shop-1012/1080p.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+
+    <header class="site-header auth-header">
+      <div class="brand">SipSpot</div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html" class="active">Explore</a>
+        <a href="spin.html">Spin The Sip</a>
+        <a href="login.html">Log In</a>
+        <a href="signup.html" class="button secondary">Sign Up</a>
+      </nav>
+    </header>
+
+    <main class="section explore-page">
+      <section class="explore-hero">
+        <div>
+          <span class="eyebrow">Cafe Explorer</span>
+          <h1>Ahmedabad cafe moods</h1>
+          <p>Only the cafe name, vibe, and directions — designed to feel luxurious, calm, and effortless.</p>
+        </div>
+        <div class="platform-stats">
+          <div>
+            <span class="stat-label">Curated list</span>
+            <strong>58 cafes</strong>
+          </div>
+          <div>
+            <span class="stat-label">City coverage</span>
+            <strong>Ahmedabad</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section explore-list-section">
+        <div class="section-header">
+          <span class="eyebrow">All cafes in one view</span>
+          <h2>Premium cafe showcase</h2>
+          <p class="section-subtitle">Every cafe is visible together in a single premium grid. Hover to focus, click to open exact directions.</p>
+        </div>
+        <div class="explore-search-panel">
+          <input id="explore-search-input" class="explore-search-input" type="search" placeholder="Search cafes by name..." aria-label="Search cafes in the gallery" />
+          <span class="search-hint">Start typing to filter the entire cafe collection.</span>
+        </div>
+        <div class="add-cafe-panel">
+          <form id="add-cafe-form" class="add-cafe-form" novalidate>
+            <h3>Add a Cafe</h3>
+            <p class="form-sub">Only name, vibe and Google Maps link are required.</p>
+            <label for="add-name">Cafe Name</label>
+            <input id="add-name" name="name" type="text" placeholder="Enter cafe name" required />
+
+            <label for="add-vibe">Cafe Vibe</label>
+            <input id="add-vibe" name="vibe" type="text" placeholder="Describe the cafe vibe" required />
+
+            <label for="add-link">Cafe Location Link</label>
+            <input id="add-link" name="link" type="url" placeholder="Paste Google Maps location link" required />
+
+            <div class="form-row">
+              <button id="add-cafe-btn" class="button primary">+ ADD CAFE</button>
+              <div id="add-cafe-msg" class="add-cafe-msg" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+        <div class="explore-grid" id="cafe-gallery"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer auth-footer-note">
+      <p>© 2026 SipSpot.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <div id="cinematic-bg" aria-hidden="true"></div>
+    <div id="cinematic-overlay" aria-hidden="true">
+      <div class="vignette"></div>
+      <div class="light-rays"></div>
+      <canvas class="cinematic-canvas" id="cinematic-canvas"></canvas>
+      <div class="overlay-spot"></div>
+    </div>
+  </body>
+</html>
